@@ -876,32 +876,27 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-function Storage() {
-  this.save = function (city, country) {
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var Storage = function Storage() {
+  _classCallCheck(this, Storage);
+
+  _defineProperty(this, "save", function (city, country) {
     localStorage.setItem('city', city);
     localStorage.setItem('country', country);
-  };
+  });
 
-  this.getData = function () {
+  _defineProperty(this, "getData", function () {
     var city = localStorage.getItem('city');
     var country = localStorage.getItem('country');
     return {
       city: city,
       country: country
     };
-  };
-} // const storage={
-//     save(city,country){
-//         localStorage.setItem('city',city)
-//         localStorage.setItem('country',country) 
-//     },
-//     getData(){
-//         const city    = localStorage.getItem('city')
-//         const country = localStorage.getItem('country')
-//         return {city,country}
-//     }
-// }
-
+  });
+};
 
 var _default = Storage;
 exports.default = _default;
@@ -921,75 +916,63 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function Http() {
-  var ui = new _ui.default();
-  this.city = 'Sherpur';
-  this.country = 'BD';
-  this.getWeatherData = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-    var res, data;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var Http = function Http() {
+  _classCallCheck(this, Http);
+
+  _defineProperty(this, "getWeatherData", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    var ui, res, data;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.prev = 0;
-            _context.next = 3;
+            ui = new _ui.default();
+            _context.prev = 1;
+            _context.next = 4;
             return fetch("https://api.openweathermap.org/data/2.5/weather?q=".concat(this.city, ",").concat(this.country, "&units=metric&appid=573e72cdbc76c4bf98614913444285cc"));
 
-          case 3:
+          case 4:
             res = _context.sent;
-            _context.next = 6;
+            _context.next = 7;
             return res.json();
 
-          case 6:
+          case 7:
             data = _context.sent;
 
             if (!(data.cod === '404' && data.message)) {
-              _context.next = 10;
+              _context.next = 11;
               break;
             }
 
             ui.showErrorMsg(data.message);
             return _context.abrupt("return");
 
-          case 10:
+          case 11:
             ui.print(data);
-            _context.next = 16;
+            _context.next = 17;
             break;
 
-          case 13:
-            _context.prev = 13;
-            _context.t0 = _context["catch"](0);
+          case 14:
+            _context.prev = 14;
+            _context.t0 = _context["catch"](1);
             ui.showErrorMsg(_context.t0);
 
-          case 16:
+          case 17:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, this, [[0, 13]]);
-  }));
-}
+    }, _callee, this, [[1, 14]]);
+  })));
 
-var _default = Http; // const http = {
-//     city:'Sherpur',
-//     country:'BD',
-//     getWeatherData(){
-//        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${this.city},${this.country}&units=metric&appid=573e72cdbc76c4bf98614913444285cc`)
-//        .then(res=>res.json())
-//        .then(data=>{
-//            if(data.cod === '404' && data.message){
-//                UI.showErrorMsg(data.message)
-//                return
-//            }
-//            UI.print(data)
-//        })
-//        .catch(err=>{
-//            UI.showErrorMsg(err)
-//            localStorage.clear()
-//        })
-//     },
-// }
+  this.city = 'Sherpur';
+  this.country = 'BD';
+};
 
+var _default = Http;
 exports.default = _default;
 },{"./ui":"ui.js"}],"ui.js":[function(require,module,exports) {
 "use strict";
@@ -1005,155 +988,172 @@ var _http = _interopRequireDefault(require("./http"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function UI() {
-  this.loadSelectors = function () {
-    var messageElm = document.querySelector('#messageWrapper');
-    var countryInputElm = document.querySelector('#country');
-    var cityInputElm = document.querySelector('#city');
-    var btnElm = document.querySelector('#button');
-    var cityElm = document.querySelector('#w-city');
-    var iconElm = document.querySelector('#w-icon');
-    var feelLikeElm = document.querySelector('#w-feel');
-    var tempElm = document.querySelector('#w-temp');
-    var pressureElm = document.querySelector('#w-pressure');
-    var humidityElm = document.querySelector('#w-humidity');
-    return {
-      messageElm: messageElm,
-      countryInputElm: countryInputElm,
-      cityInputElm: cityInputElm,
-      btnElm: btnElm,
-      cityElm: cityElm,
-      iconElm: iconElm,
-      feelLikeElm: feelLikeElm,
-      tempElm: tempElm,
-      pressureElm: pressureElm,
-      humidityElm: humidityElm
-    };
-  };
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  this.showErrorMsg = function (msg) {
-    var _this$loadSelectors = this.loadSelectors(),
-        messageElm = _this$loadSelectors.messageElm,
-        btnElm = _this$loadSelectors.btnElm;
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-    var elm = "<div id=\"message\" class=\"alert alert-danger d-flex\">\n        ".concat(msg, "\n        <span id=\"icon\" class=\"ml-auto\" style=\"cursor: pointer\"\n          ><i class=\"far fa-times-circle\" id=\"close\"></i\n        ></span>\n        </div>"); // showing the error message and disabled button
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-    messageElm.insertAdjacentHTML('afterBegin', elm);
-    btnElm.setAttribute('disabled', 'disabled'); // hiding the message
-    // checking if the error message is exist or not 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-    var messageInner = document.querySelector('#message');
+var UI = /*#__PURE__*/function () {
+  function UI() {
+    _classCallCheck(this, UI);
 
-    if (messageInner) {
-      this.hideMessage();
-    }
-  };
+    _defineProperty(this, "loadSelectors", function () {
+      var messageElm = document.querySelector('#messageWrapper');
+      var countryInputElm = document.querySelector('#country');
+      var cityInputElm = document.querySelector('#city');
+      var btnElm = document.querySelector('#button');
+      var cityElm = document.querySelector('#w-city');
+      var iconElm = document.querySelector('#w-icon');
+      var feelLikeElm = document.querySelector('#w-feel');
+      var tempElm = document.querySelector('#w-temp');
+      var pressureElm = document.querySelector('#w-pressure');
+      var humidityElm = document.querySelector('#w-humidity');
+      return {
+        messageElm: messageElm,
+        countryInputElm: countryInputElm,
+        cityInputElm: cityInputElm,
+        btnElm: btnElm,
+        cityElm: cityElm,
+        iconElm: iconElm,
+        feelLikeElm: feelLikeElm,
+        tempElm: tempElm,
+        pressureElm: pressureElm,
+        humidityElm: humidityElm
+      };
+    });
 
-  this.hideMessage = function () {
-    var _this$loadSelectors2 = this.loadSelectors(),
-        btnElm = _this$loadSelectors2.btnElm;
+    _defineProperty(this, "showErrorMsg", function (msg) {
+      var _this$loadSelectors = this.loadSelectors(),
+          messageElm = _this$loadSelectors.messageElm,
+          btnElm = _this$loadSelectors.btnElm;
 
-    var messageInner = document.querySelector('#message');
-    setTimeout(function () {
-      // remove error message and disable attribute of button element
+      var elm = "<div id=\"message\" class=\"alert alert-danger d-flex\">\n    ".concat(msg, "\n    <span id=\"icon\" class=\"ml-auto\" style=\"cursor: pointer\"\n      ><i class=\"far fa-times-circle\" id=\"close\"></i\n    ></span>\n    </div>"); // showing the error message and disabled button
+
+      messageElm.insertAdjacentHTML('afterBegin', elm);
+      btnElm.setAttribute('disabled', 'disabled'); // hiding the message
+      // checking if the error message is exist or not 
+
+      var messageInner = document.querySelector('#message');
+
+      if (messageInner) {
+        this.hideMessage();
+      }
+    });
+
+    _defineProperty(this, "hideMessage", function () {
+      var _this$loadSelectors2 = this.loadSelectors(),
+          btnElm = _this$loadSelectors2.btnElm;
+
+      var messageInner = document.querySelector('#message');
+      setTimeout(function () {
+        // remove error message and disable attribute of button element
+        messageInner.remove();
+        btnElm.removeAttribute('disabled');
+      }, 2000);
+    });
+
+    _defineProperty(this, "hideMessageInst", function () {
+      var messageInner = document.querySelector('#message');
       messageInner.remove();
-      btnElm.removeAttribute('disabled');
-    }, 2000);
-  };
+    });
 
-  this.hideMessageInst = function () {
-    var messageInner = document.querySelector('#message');
-    messageInner.remove();
-  };
+    _defineProperty(this, "resetInput", function () {
+      var _this$loadSelectors3 = this.loadSelectors(),
+          cityInputElm = _this$loadSelectors3.cityInputElm,
+          countryInputElm = _this$loadSelectors3.countryInputElm;
 
-  this.resetInput = function () {
-    var _this$loadSelectors3 = this.loadSelectors(),
-        cityInputElm = _this$loadSelectors3.cityInputElm,
-        countryInputElm = _this$loadSelectors3.countryInputElm;
+      cityInputElm.value = '';
+      countryInputElm.value = '';
+    });
 
-    cityInputElm.value = '';
-    countryInputElm.value = '';
-  };
+    _defineProperty(this, "print", function (weatherData) {
+      var name = weatherData.name,
+          _weatherData$main = weatherData.main,
+          temp = _weatherData$main.temp,
+          pressure = _weatherData$main.pressure,
+          humidity = _weatherData$main.humidity;
+      var _weatherData$weather$ = weatherData.weather[0],
+          icon = _weatherData$weather$.icon,
+          main = _weatherData$weather$.main;
 
-  this.print = function (weatherData) {
-    var name = weatherData.name,
-        _weatherData$main = weatherData.main,
-        temp = _weatherData$main.temp,
-        pressure = _weatherData$main.pressure,
-        humidity = _weatherData$main.humidity;
-    var _weatherData$weather$ = weatherData.weather[0],
-        icon = _weatherData$weather$.icon,
-        main = _weatherData$weather$.main;
+      var _this$loadSelectors4 = this.loadSelectors(),
+          tempElm = _this$loadSelectors4.tempElm,
+          pressureElm = _this$loadSelectors4.pressureElm,
+          humidityElm = _this$loadSelectors4.humidityElm,
+          cityElm = _this$loadSelectors4.cityElm,
+          iconElm = _this$loadSelectors4.iconElm,
+          feelLikeElm = _this$loadSelectors4.feelLikeElm;
 
-    var _this$loadSelectors4 = this.loadSelectors(),
-        tempElm = _this$loadSelectors4.tempElm,
-        pressureElm = _this$loadSelectors4.pressureElm,
-        humidityElm = _this$loadSelectors4.humidityElm,
-        cityElm = _this$loadSelectors4.cityElm,
-        iconElm = _this$loadSelectors4.iconElm,
-        feelLikeElm = _this$loadSelectors4.feelLikeElm;
+      var iconUrl = "http://openweathermap.org/img/w/" + icon + ".png";
+      tempElm.textContent = "Temperature : ".concat(temp, "\u2103");
+      pressureElm.textContent = "Pressure : ".concat(pressure);
+      humidityElm.textContent = "Humidity : ".concat(humidity);
+      cityElm.textContent = "City : ".concat(name);
+      feelLikeElm.textContent = "Weather : ".concat(main);
+      iconElm.setAttribute('src', iconUrl);
+    });
+  }
 
-    var iconUrl = "http://openweathermap.org/img/w/" + icon + ".png";
-    tempElm.textContent = "Temperature : ".concat(temp, "\u2103");
-    pressureElm.textContent = "Pressure : ".concat(pressure);
-    humidityElm.textContent = "Humidity : ".concat(humidity);
-    cityElm.textContent = "City : ".concat(name);
-    feelLikeElm.textContent = "Weather : ".concat(main);
-    iconElm.setAttribute('src', iconUrl);
-  };
-}
+  _createClass(UI, null, [{
+    key: "init",
+    value: function init() {
+      var storage = new _storage.default();
+      var http = new _http.default();
+      var ui = new UI();
 
-UI.init = function () {
-  var storage = new _storage.default();
-  var http = new _http.default();
-  var ui = new UI();
+      var _ui$loadSelectors = ui.loadSelectors(),
+          btnElm = _ui$loadSelectors.btnElm,
+          countryInputElm = _ui$loadSelectors.countryInputElm,
+          cityInputElm = _ui$loadSelectors.cityInputElm,
+          messageElm = _ui$loadSelectors.messageElm;
 
-  var _ui$loadSelectors = ui.loadSelectors(),
-      btnElm = _ui$loadSelectors.btnElm,
-      countryInputElm = _ui$loadSelectors.countryInputElm,
-      cityInputElm = _ui$loadSelectors.cityInputElm,
-      messageElm = _ui$loadSelectors.messageElm;
+      btnElm.addEventListener('click', function (e) {
+        // prevent form submission
+        e.preventDefault();
+        var country = countryInputElm.value;
+        var city = cityInputElm.value;
 
-  btnElm.addEventListener('click', function (e) {
-    // prevent form submission
-    e.preventDefault();
-    var country = countryInputElm.value;
-    var city = cityInputElm.value;
+        if (country === '' || city === '') {
+          // show error message
+          ui.showErrorMsg('Please fill up the required filed');
+        } else {
+          http.city = city;
+          http.country = country;
+          http.getWeatherData();
+          ui.resetInput(); // save city and country in localStorage
 
-    if (country === '' || city === '') {
-      // show error message
-      ui.showErrorMsg('Please fill up the required filed');
-    } else {
-      http.city = city;
-      http.country = country;
-      http.getWeatherData();
-      ui.resetInput(); // save city and country in localStorage
+          storage.save(city, country);
+        }
+      });
+      messageElm.addEventListener('click', function (e) {
+        if (e.target.id === 'close') {
+          // hiding cross element instance and remove disable attribute of button element
+          ui.hideMessageInst();
+          btnElm.removeAttribute('disabled');
+        }
+      });
+      window.addEventListener('DOMContentLoaded', function () {
+        // getting data from localStorage
+        var _storage$getData = storage.getData(),
+            city = _storage$getData.city,
+            country = _storage$getData.country;
 
-      storage.save(city, country);
+        if (city && country) {
+          http.city = city;
+          http.country = country;
+          http.getWeatherData();
+        } else {
+          http.getWeatherData();
+        }
+      });
     }
-  });
-  messageElm.addEventListener('click', function (e) {
-    if (e.target.id === 'close') {
-      // hiding cross element instance and remove disable attribute of button element
-      ui.hideMessageInst();
-      btnElm.removeAttribute('disabled');
-    }
-  });
-  window.addEventListener('DOMContentLoaded', function () {
-    // getting data from localStorage
-    var _storage$getData = storage.getData(),
-        city = _storage$getData.city,
-        country = _storage$getData.country;
+  }]);
 
-    if (city && country) {
-      http.city = city;
-      http.country = country;
-      http.getWeatherData();
-    } else {
-      http.getWeatherData();
-    }
-  });
-};
+  return UI;
+}();
 
 var _default = UI;
 exports.default = _default;
@@ -1195,7 +1195,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "1109" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "14181" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
