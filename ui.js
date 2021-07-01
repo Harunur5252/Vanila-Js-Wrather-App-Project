@@ -1,8 +1,9 @@
-import storage from "./storage";
-import http from "./http";
+import Storage from "./storage";
+import Http from "./http";
 
-const UI={
-    loadSelectors(){
+
+function UI(){
+    this.loadSelectors=function(){
         const messageElm = document.querySelector('#messageWrapper');
         const countryInputElm = document.querySelector('#country');
         const cityInputElm = document.querySelector('#city');
@@ -17,8 +18,8 @@ const UI={
             messageElm,countryInputElm,cityInputElm,btnElm,cityElm,iconElm,feelLikeElm,
             tempElm,pressureElm,humidityElm
         }
-    },
-    showErrorMsg(msg){
+    }
+    this.showErrorMsg=function(msg){
         const {messageElm,btnElm}=this.loadSelectors();
         const elm = `<div id="message" class="alert alert-danger d-flex">
         ${msg}
@@ -35,8 +36,8 @@ const UI={
         if(messageInner){
             this.hideMessage();
         }
-    },
-    hideMessage(){
+    }
+    this.hideMessage=function(){
         const {btnElm}=this.loadSelectors();
         const messageInner = document.querySelector('#message');
         setTimeout(()=>{
@@ -44,17 +45,17 @@ const UI={
             messageInner.remove();
             btnElm.removeAttribute('disabled');
         },2000)
-    },
-    hideMessageInst(){
+    }
+    this.hideMessageInst=function(){
         const messageInner = document.querySelector('#message');
         messageInner.remove();
-    },
-    resetInput(){
+    }
+    this.resetInput=function(){
        const {cityInputElm,countryInputElm}=this.loadSelectors();
        cityInputElm.value='';
        countryInputElm.value='';
-    },
-    print(weatherData){
+    }
+    this.print=function(weatherData){
        const {name,main:{temp,pressure,humidity}} = weatherData;
        const {icon,main} = weatherData.weather[0];
        const {tempElm,pressureElm,humidityElm,cityElm,iconElm,feelLikeElm}=this.loadSelectors();
@@ -65,9 +66,14 @@ const UI={
        cityElm.textContent=`City : ${name}`;
        feelLikeElm.textContent=`Weather : ${main}`;
        iconElm.setAttribute('src',iconUrl);
-    },
-    init(){
-        const {btnElm,countryInputElm,cityInputElm,messageElm}=this.loadSelectors();
+    }
+}
+
+UI.init = function(){
+        const storage = new Storage()
+        const http    = new Http()
+        const ui      = new UI()
+        const {btnElm,countryInputElm,cityInputElm,messageElm}=ui.loadSelectors();
         btnElm.addEventListener('click',e=>{
             // prevent form submission
             e.preventDefault();
@@ -75,12 +81,12 @@ const UI={
             const city = cityInputElm.value;
             if(country === '' || city === ''){
                 // show error message
-                this.showErrorMsg('Please fill up the required filed');
+                ui.showErrorMsg('Please fill up the required filed');
             }else{
                 http.city=city
                 http.country=country
                 http.getWeatherData()
-                this.resetInput();
+                ui.resetInput();
                 // save city and country in localStorage
                 storage.save(city,country) 
             }
@@ -88,7 +94,7 @@ const UI={
         messageElm.addEventListener('click',e=>{
             if(e.target.id === 'close'){
                 // hiding cross element instance and remove disable attribute of button element
-                this.hideMessageInst();
+                ui.hideMessageInst();
                 btnElm.removeAttribute('disabled');
             }
         })
@@ -103,7 +109,8 @@ const UI={
                 http.getWeatherData()
             }
         })
-    }
 }
 
 export default UI
+
+

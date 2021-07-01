@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Harunur5252/Vanila-Js-Wrather-App-Project/issues"
   },
-  "homepage": "https://github.com/Harunur5252/Vanila-Js-Wrather-App-Project#readme"
+  "homepage": "https://github.com/Harunur5252/Vanila-Js-Wrather-App-Project#readme",
+  "dependencies": {
+    "regenerator": "^0.14.7"
+  }
 }
