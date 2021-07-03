@@ -1,10 +1,15 @@
 {
-  "name": "weather_app_practise",
+  "name": "my-webpack-project",
   "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
+  "description": "My webpack project",
+  "main": "./src/index.js",
   "scripts": {
-    "dev": "parcel index.html"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode=production --node-env=production",
+    "build:dev": "webpack --mode=development",
+    "build:prod": "webpack --mode=production --node-env=production",
+    "watch": "webpack --watch",
+    "serve": "webpack serve"
   },
   "repository": {
     "type": "git",
@@ -17,7 +22,17 @@
     "url": "https://github.com/Harunur5252/Vanila-Js-Wrather-App-Project/issues"
   },
   "homepage": "https://github.com/Harunur5252/Vanila-Js-Wrather-App-Project#readme",
-  "dependencies": {
-    "regenerator": "^0.14.7"
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "@webpack-cli/generators": "^2.2.0",
+    "babel-loader": "^8.2.2",
+    "css-loader": "^5.2.6",
+    "html-webpack-plugin": "^5.3.2",
+    "prettier": "^2.3.2",
+    "style-loader": "^3.0.0",
+    "webpack": "^5.42.0",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2"
   }
 }
