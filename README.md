@@ -2,7 +2,7 @@
 
 
 # Weather Application 
-Simple digit guessing game using Vanilla js   
+This is a weather app(Api project) where a user can see the districts weather of any countries  
 
 ## Project Specifications
 
